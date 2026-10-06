@@ -1,0 +1,452 @@
+/* ============================================================
+ * ระบบแจ้งลา + โอที — styles.css — v1.0
+ * สี/ดีไซน์ทั้งหมด (ปรับหน้าตาที่นี่)
+ * ฟอนต์: Noto Sans Thai Looped (ไทยมีหัว อ่านง่าย) + Noto Sans Myanmar — ฝังไว้ในโฟลเดอร์ fonts/ ไม่ต้องพึ่งเน็ตนอก
+ * ============================================================ */
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/noto-sans-thai-looped-thai-400-normal.woff2) format('woff2');unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/noto-sans-thai-looped-thai-600-normal.woff2) format('woff2');unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-thai-looped-thai-700-normal.woff2) format('woff2');unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:800;font-display:swap;src:url(fonts/noto-sans-thai-looped-thai-800-normal.woff2) format('woff2');unicode-range:U+02D7,U+0303,U+0331,U+0E01-0E5B,U+200C-200D,U+25CC}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/noto-sans-thai-looped-latin-400-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/noto-sans-thai-looped-latin-600-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-thai-looped-latin-700-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans Thai Looped';font-style:normal;font-weight:800;font-display:swap;src:url(fonts/noto-sans-thai-looped-latin-800-normal.woff2) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}
+@font-face{font-family:'Noto Sans Myanmar';font-style:normal;font-weight:400;font-display:swap;src:url(fonts/noto-sans-myanmar-myanmar-400-normal.woff2) format('woff2');unicode-range:U+1000-109F,U+200C-200D,U+25CC,U+A92E,U+A9E0-A9FE,U+AA60-AA7F}
+@font-face{font-family:'Noto Sans Myanmar';font-style:normal;font-weight:600;font-display:swap;src:url(fonts/noto-sans-myanmar-myanmar-600-normal.woff2) format('woff2');unicode-range:U+1000-109F,U+200C-200D,U+25CC,U+A92E,U+A9E0-A9FE,U+AA60-AA7F}
+@font-face{font-family:'Noto Sans Myanmar';font-style:normal;font-weight:700;font-display:swap;src:url(fonts/noto-sans-myanmar-myanmar-700-normal.woff2) format('woff2');unicode-range:U+1000-109F,U+200C-200D,U+25CC,U+A92E,U+A9E0-A9FE,U+AA60-AA7F}
+
+:root{
+  --brand:#1F4E79; --brand-700:#163A5C; --brand-900:#12283D; --brand-tint:#E9F1F8;
+  --bg:#F2F6FA; --bg2:#E4ECF3; --card:#FFFFFF; --line:#D6E0EA; --line-2:#BBCBDB;
+  --text:#12283D; --muted:#5A6B7D; --muted-2:#8C9BAB;
+  --green:#157347; --green-bg:#E2F5EB; --green-line:#A8DCBF;
+  --amber:#8F5200; --amber-bg:#FFF1D6; --amber-line:#F2C97B;
+  --red:#C62828; --red-bg:#FCE6E6; --red-line:#F0B4B4;
+  --main:#3E7F14; --main-bg:#EDF7E3;
+  --ot:#3E7F14; --ot-bg:#EEF8E4; --ot-line:#B9DE95; --accent:#78C040; --sky:#10A8E0;
+  --shadow:0 1px 2px rgba(18,40,61,.06), 0 6px 18px rgba(18,40,61,.07);
+  --shadow-lg:0 14px 44px rgba(18,40,61,.22);
+  --r:16px; --r-sm:11px;
+  --font:'Noto Sans Thai Looped','Noto Sans Myanmar',system-ui,-apple-system,'Segoe UI',sans-serif;
+}
+*{box-sizing:border-box; -webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0; touch-action:manipulation; -ms-touch-action:manipulation}
+html{-webkit-text-size-adjust:100%}
+body{font-family:var(--font); background:var(--bg); color:var(--text);
+  font-size:16px; line-height:1.55; min-height:100vh; -webkit-font-smoothing:antialiased; overflow-wrap:anywhere}
+button{font-family:inherit; cursor:pointer; border:none; background:none; color:inherit; touch-action:manipulation}
+input,textarea,select{font-family:inherit; font-size:16px; color:var(--text)}
+.hidden{display:none !important}
+:focus-visible{outline:3px solid rgba(31,78,121,.45); outline-offset:2px}
+code{background:var(--bg2); padding:1px 6px; border-radius:5px; font-size:.92em}
+
+/* อักษรพม่าต้องการบรรทัดสูงกว่าไทย (สระบน-ล่างซ้อนหลายชั้น) */
+.l-my{font-family:'Noto Sans Myanmar','Noto Sans Thai Looped',sans-serif; line-height:1.9}
+.l-sub{display:block; font-size:.74em; font-weight:500; opacity:.74; line-height:1.4; margin-top:1px}
+html[data-lang="my"] body{line-height:1.7}
+
+/* ---------- แถบหัว ---------- */
+.app-header{background:linear-gradient(135deg,var(--brand-700) 0%, var(--brand) 100%); color:#fff; border-bottom:3px solid var(--accent);
+  padding:10px 14px; padding-top:calc(10px + env(safe-area-inset-top)); display:flex; align-items:center; gap:10px; position:sticky; top:0; z-index:30;
+  box-shadow:0 2px 14px rgba(22,58,92,.25)}
+.app-header img{height:44px; width:auto; display:block; background:#fff; border-radius:11px; padding:4px 6px}
+.app-header .ht{display:flex; flex-direction:column; line-height:1.25; min-width:0}
+.app-header .ht b{font-size:17px; font-weight:800}
+.app-header .ht span{font-size:12px; opacity:.9; line-height:1.5}
+.header-spacer{flex:1}
+.langSwitch{display:flex; background:rgba(0,0,0,.18); border-radius:11px; padding:3px; gap:2px}
+.langSwitch button{color:#fff; font-size:13px; font-weight:700; padding:7px 10px; border-radius:8px; opacity:.8; line-height:1.3; min-height:36px}
+.langSwitch button.active{background:#fff; color:var(--brand-700); opacity:1}
+.icon-btn{background:rgba(255,255,255,.16); color:#fff; border-radius:10px; padding:8px 12px; min-height:40px; min-width:40px;
+  font-weight:700; font-size:16px; display:inline-flex; align-items:center; justify-content:center; gap:6px}
+.icon-btn:active{background:rgba(255,255,255,.3)}
+
+.wrap{max-width:860px; margin:0 auto; padding:18px 14px 110px}
+.section-title{font-size:22px; font-weight:800; margin:4px 0 2px; line-height:1.3}
+.section-title .l-sub{font-size:.68em; opacity:.7; font-weight:600}
+.section-sub{color:var(--muted); font-size:14px; margin:0 0 16px}
+
+/* ---------- เลือกบริษัท / สัญชาติ ---------- */
+.coTabs{display:grid; grid-template-columns:1fr 1fr; background:var(--bg2); border-radius:14px; padding:4px; gap:4px; margin:4px 0 10px}
+.coTab{padding:10px 8px; border-radius:11px; display:flex; align-items:baseline; justify-content:center; gap:8px; color:var(--muted)}
+.coTab b{font-size:18px; font-weight:800; letter-spacing:.3px}
+.coTab .cnt{font-size:12.5px; font-weight:500}
+.coTab.active{background:var(--card); color:var(--brand-900); box-shadow:0 1px 4px rgba(18,40,61,.14)}
+.coTab[data-co="MAIN"].active{color:var(--main)}
+.natTabs{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin:6px 0 14px}
+.natTab{background:var(--card); border:2px solid var(--line); border-radius:var(--r); padding:12px 10px;
+  font-weight:700; font-size:17px; color:var(--text); display:flex; flex-direction:column;
+  align-items:center; gap:2px; box-shadow:var(--shadow)}
+.natTab .flag{font-size:28px; line-height:1.1}
+.natTab .cnt{font-size:12.5px; color:var(--muted); font-weight:500}
+.natTab.active{border-color:var(--brand); background:#F3F8FD; box-shadow:0 0 0 3px rgba(31,78,121,.13), var(--shadow)}
+.natTab:active{transform:scale(.985)}
+
+.searchBar{position:relative; margin-bottom:14px}
+.searchBar input{width:100%; padding:13px 14px 13px 44px; border:2px solid var(--line); border-radius:var(--r-sm);
+  background:var(--card); outline:none; -webkit-appearance:none; appearance:none}
+.searchBar input:focus{border-color:var(--brand)}
+.searchBar .si{position:absolute; left:14px; top:50%; transform:translateY(-50%); font-size:17px; opacity:.6}
+
+.empGrid{display:grid; grid-template-columns:repeat(auto-fill,minmax(138px,1fr)); gap:10px}
+.empCard{background:var(--card); border:1.5px solid var(--line); border-radius:var(--r); padding:14px 8px 12px;
+  text-align:center; box-shadow:0 1px 3px rgba(18,40,61,.07); display:flex; flex-direction:column; align-items:center; position:relative}
+.empCard:active{transform:scale(.97); border-color:var(--brand)}
+.avatar{width:84px; height:84px; border-radius:50%; object-fit:cover; margin-bottom:9px; background:var(--bg2);
+  display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:800; color:#fff;
+  border:3px solid #fff; box-shadow:0 2px 8px rgba(18,40,61,.16)}
+.empCard .nm{font-weight:700; font-size:15px; line-height:1.35}
+.empCard .nm.l-my{line-height:1.8; font-size:14.5px}
+.empCard .nm small{display:block; font-weight:500; font-size:12.5px; color:var(--muted); margin-top:1px; font-family:var(--font); line-height:1.4}
+.empCard .idTag{font-size:11px; color:var(--muted-2); margin-top:3px}
+.empEmpty{grid-column:1/-1; text-align:center; color:var(--muted); padding:36px 10px; display:block; width:100%}
+.empEmpty.retry{background:var(--card); border:2px dashed var(--line-2); border-radius:var(--r); font-weight:600}
+.adminLink{text-align:center; margin-top:34px}
+.adminLink button{font-size:12.5px; color:var(--muted-2); padding:10px 14px}
+
+.loading{text-align:center; padding:44px 0; color:var(--muted)}
+.spinner{width:34px; height:34px; border:3.5px solid var(--line); border-top-color:var(--brand);
+  border-radius:50%; animation:spin .8s linear infinite; margin:0 auto 12px}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* ---------- หน้าต่างลอย ---------- */
+.overlay{position:fixed; inset:0; background:rgba(18,40,61,.58); display:flex;
+  align-items:center; justify-content:center; padding:16px; z-index:70; animation:fade .15s; overflow-y:auto}
+@keyframes fade{from{opacity:0}to{opacity:1}}
+.modal{background:var(--card); border-radius:22px; width:100%; max-width:380px; padding:24px 20px;
+  text-align:center; box-shadow:var(--shadow-lg); animation:pop .2s; margin:auto}
+.modal-wide{max-width:430px}
+.modal-slip{padding:16px 14px 18px}
+@keyframes pop{from{opacity:0; transform:scale(.95) translateY(8px)}to{opacity:1; transform:none}}
+.modal .bigAvatar{width:128px; height:128px; border-radius:50%; object-fit:cover; margin:0 auto 14px; display:flex;
+  align-items:center; justify-content:center; font-size:46px; font-weight:800; color:#fff; border:4px solid #fff;
+  box-shadow:0 4px 16px rgba(18,40,61,.2)}
+.modal .bigName{font-size:24px; font-weight:800; line-height:1.35}
+.modal .bigName small{display:block; font-size:15px; font-weight:500; color:var(--muted); margin-top:3px}
+.modal .bigName small.idLine{font-size:13px; color:var(--muted-2)}
+.modal .q{color:var(--muted); margin:10px 0 20px; font-size:15px}
+.modalBtns{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.modalBtns.one{grid-template-columns:1fr}
+.dlgBody{color:var(--muted); font-size:14.5px; margin:10px 0 16px; text-align:center}
+.dlgBody b{color:var(--text)}
+#dlgInput,#dlgDate{margin-bottom:16px}
+
+/* ---------- ปุ่ม ---------- */
+.btn{display:inline-flex; align-items:center; justify-content:center; gap:7px; padding:13px 16px; border-radius:13px; min-height:50px;
+  font-weight:700; font-size:16px; line-height:1.25; text-align:center; flex-wrap:wrap}
+.btn .l-sub{flex-basis:100%; font-size:.72em; margin-top:0}
+.btn:active{transform:scale(.975)}
+.btn-primary{background:var(--brand); color:#fff; box-shadow:0 3px 10px rgba(31,78,121,.28)}
+.btn-primary:disabled{background:#AEC2D6; box-shadow:none; cursor:not-allowed}
+.btn-danger{background:var(--red); color:#fff}
+.btn-ghost{background:var(--bg2); color:var(--brand-900)}
+.btn-ghost:disabled{opacity:.55}
+.btn-line{background:#fff; border:1.5px solid var(--line-2); color:var(--brand-900)}
+.btn-block{width:100%}
+.btn-lg{padding:15px; font-size:18px; border-radius:15px; min-height:56px}
+
+/* ---------- หน้าแจ้งลา ---------- */
+.personBar{display:flex; align-items:center; gap:12px; background:var(--card); border:1.5px solid var(--line);
+  border-radius:var(--r); padding:10px 12px; margin-bottom:14px; box-shadow:var(--shadow)}
+.personBar .pa{width:50px; height:50px; border-radius:50%; object-fit:cover; flex-shrink:0; display:flex;
+  align-items:center; justify-content:center; font-size:19px; font-weight:800; color:#fff}
+.personBar .pn{flex:1; min-width:0}
+.personBar .pn b{font-size:16.5px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.personBar .pn small{color:var(--muted); font-size:12.5px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.linkBtn{color:var(--brand); font-weight:700; font-size:13.5px; padding:10px 6px; text-align:right}
+
+.subTabs{display:flex; background:var(--bg2); border-radius:13px; padding:4px; margin-bottom:14px; gap:4px}
+.subTab{flex:1; padding:10px 8px; border-radius:10px; font-weight:700; font-size:15px; color:var(--muted); text-align:center; line-height:1.3; min-height:44px}
+.subTab.active{background:#fff; color:var(--brand); box-shadow:0 1px 4px rgba(18,40,61,.12)}
+
+.fblock{background:var(--card); border:1.5px solid var(--line); border-radius:var(--r); padding:16px 14px; margin-bottom:12px; box-shadow:var(--shadow)}
+.flabel{font-weight:700; font-size:16px; margin:0 0 12px; display:flex; align-items:center; gap:9px; line-height:1.35}
+.flabel .num{background:var(--brand); color:#fff; width:26px; height:26px; border-radius:50%; display:inline-flex;
+  align-items:center; justify-content:center; font-size:14px; font-weight:800; flex-shrink:0; font-family:var(--font); line-height:1}
+.desc{color:var(--muted); font-size:13.5px; margin:0 0 14px}
+label.mini{display:block; font-weight:700; font-size:13.5px; margin-bottom:6px}
+.dateInput{width:100%; padding:12px 14px; min-height:52px; border:2px solid var(--line); border-radius:11px;
+  outline:none; background:#fff; font-size:17px; font-weight:600; line-height:1.2;
+  -webkit-appearance:none; appearance:none; text-align:center; display:block}
+.dateInput:focus{border-color:var(--brand)}
+input[type="date"],input[type="month"]{-webkit-appearance:none; appearance:none}
+input[type="date"]::-webkit-date-and-time-value,
+input[type="month"]::-webkit-date-and-time-value{text-align:center; margin:0; line-height:1.2}
+.field input[type="date"],.field input[type="month"]{min-height:46px; line-height:1.2; text-align:left}
+.field input[type="date"]::-webkit-date-and-time-value,.field input[type="month"]::-webkit-date-and-time-value{text-align:left}
+.dateEcho{text-align:center; font-weight:700; color:var(--brand-700); margin-top:8px; font-size:15px; min-height:1.5em}
+.pinInput{letter-spacing:8px; font-size:26px}
+
+.note{font-size:13px; color:var(--muted); margin-top:12px; background:var(--bg); padding:10px 12px; border-radius:10px; line-height:1.6}
+.note-amber{color:var(--amber); background:var(--amber-bg); border:1.5px solid var(--amber-line)}
+.note-green{color:var(--green); background:var(--green-bg); border:1.5px solid var(--green-line); font-weight:600}
+.hint{font-size:12.5px; color:var(--muted); text-align:center; margin:10px 0 16px}
+
+.statusBadge{display:inline-flex; align-items:center; gap:8px; padding:8px 14px; border-radius:10px;
+  font-weight:700; font-size:14px; margin-top:12px; border:1.5px solid; line-height:1.35}
+.statusBadge .l-sub{display:inline; margin-left:6px}
+.st-adv{background:var(--green-bg); color:var(--green); border-color:var(--green-line)}
+.st-same{background:var(--amber-bg); color:var(--amber); border-color:var(--amber-line)}
+.st-back{background:var(--red-bg); color:var(--red); border-color:var(--red-line)}
+.st-dot{width:9px; height:9px; border-radius:50%; background:currentColor; flex-shrink:0}
+.rangeCount{font-size:13.5px; font-weight:600; color:var(--brand-700); margin-top:8px}
+
+.sundayBox{margin-top:12px; padding:12px; background:var(--amber-bg); border:1.5px solid var(--amber-line);
+  border-radius:11px; display:flex; align-items:center; gap:12px}
+.sundayBox .sw-txt{flex:1; font-size:13.5px; color:var(--amber); font-weight:600; line-height:1.55}
+.switch{position:relative; width:54px; height:32px; flex-shrink:0}
+.switch input{opacity:0; width:0; height:0}
+.slider{position:absolute; inset:0; background:#cbb78a; border-radius:32px; transition:.2s}
+.slider:before{content:""; position:absolute; height:26px; width:26px; left:3px; top:3px; background:#fff; border-radius:50%; transition:.2s}
+.switch input:checked + .slider{background:var(--amber)}
+.switch input:checked + .slider:before{transform:translateX(22px)}
+
+.chips{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
+.chip{padding:12px 4px; border:2px solid var(--line); border-radius:13px; background:#fff; text-align:center;
+  font-weight:700; font-size:14.5px; display:flex; flex-direction:column; align-items:center; gap:4px; line-height:1.35; min-height:86px; justify-content:center}
+.chip .ci{font-size:24px; line-height:1.1}
+.chip .l-my{font-size:13px; line-height:1.7}
+.chip.active{border-color:var(--brand); background:#F0F6FC; color:var(--brand); box-shadow:0 0 0 3px rgba(31,78,121,.1)}
+.chip:active{transform:scale(.97)}
+.chip.disabled{opacity:.42; filter:grayscale(1)}
+.chip.disabled::after{content:"🔒"; font-size:11px}
+
+.timelineHead{display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:8px}
+.hourTotal{font-weight:800; font-size:14.5px; color:var(--brand); background:var(--brand-tint); padding:6px 12px; border-radius:10px; border:1.5px solid var(--line-2)}
+.hourTotal.zero{color:var(--muted); background:var(--bg2); border-color:var(--line)}
+.quickPick{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:11px}
+.qbtn{padding:10px 4px; border:2px solid var(--line); border-radius:12px; background:#fff; font-weight:700; font-size:14px;
+  display:flex; flex-direction:column; gap:1px; align-items:center; line-height:1.35; min-height:64px; justify-content:center}
+.qbtn .l-my{font-size:12.5px; line-height:1.7}
+.qbtn small{font-weight:500; font-size:11px; color:var(--muted); font-family:var(--font)}
+.qbtn.active{border-color:var(--brand); background:var(--brand-tint); color:var(--brand)}
+.qbtn.active small{color:var(--brand)}
+.qbtn:active{transform:scale(.97)}
+.timeline{display:grid; grid-template-columns:1fr 1fr; gap:8px}
+.slot{display:flex; align-items:center; gap:10px; padding:12px; border:2px solid var(--line); border-radius:12px; background:#fff; min-height:52px; text-align:left}
+.slot .tk{width:26px; height:26px; border-radius:8px; border:2px solid var(--line-2); flex-shrink:0; display:flex;
+  align-items:center; justify-content:center; color:#fff; font-size:16px; font-weight:800}
+.slot .tm{font-weight:700; font-size:15.5px; letter-spacing:.2px; font-variant-numeric:tabular-nums}
+.slot.on{border-color:var(--brand); background:var(--brand-tint)}
+.slot.on .tk{background:var(--brand); border-color:var(--brand)}
+.slot:not(.lunch):active{transform:scale(.97)}
+.slot.lunch{grid-column:1/-1; background:#F3F2EF; border-color:#E4E1DA; border-style:dashed; color:var(--muted-2); cursor:default; min-height:42px; padding:8px 12px}
+.slot.lunch .tk{border:none; background:none; font-size:15px}
+.slot.lunch .tm{color:var(--muted-2); font-size:14px}
+.slot.lunch .lz{font-size:12.5px; margin-left:auto; font-weight:600}
+
+textarea.reason{width:100%; min-height:78px; padding:12px; border:2px solid var(--line); border-radius:11px; outline:none; resize:vertical; background:#fff; line-height:1.6; display:block}
+textarea.reason:focus{border-color:var(--brand)}
+
+/* แถบส่งใบลา ติดขอบล่างจอ */
+.submitBar{position:fixed; left:0; right:0; bottom:0; z-index:25; background:rgba(255,255,255,.96); backdrop-filter:blur(8px);
+  border-top:1.5px solid var(--line); padding:8px 14px calc(10px + env(safe-area-inset-bottom)); box-shadow:0 -4px 18px rgba(18,40,61,.08)}
+.submitBar > *{max-width:832px; margin-left:auto; margin-right:auto}
+.submitSummary{font-size:13px; font-weight:600; color:var(--muted); text-align:center; margin-bottom:6px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; min-height:1.5em}
+.submitBar .btn{width:100%; display:flex}
+#paneLeave,#paneOT{padding-bottom:36px}
+
+/* ---------- ประวัติ ---------- */
+.useHead{font-weight:700; font-size:14px; color:var(--muted); margin:2px 0 8px}
+.useGrid{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:16px}
+.useCard{background:var(--card); border:1.5px solid var(--line); border-radius:13px; padding:10px 8px; text-align:center; box-shadow:var(--shadow)}
+.useCard .ui{font-size:20px; line-height:1.2}
+.useCard .ut{font-size:12px; color:var(--muted); font-weight:600; line-height:1.4}
+.useCard .uv{font-size:22px; font-weight:800; color:var(--brand); line-height:1.3}
+.useCard .uv span{font-size:12px; font-weight:600; color:var(--muted)}
+.useCard small{display:block; font-size:11.5px; color:var(--green); font-weight:600; line-height:1.4}
+.useCard small.over{color:var(--red)}
+.useCard small .l-sub{display:none}
+.histGroup{font-weight:800; font-size:14px; color:var(--brand-900); margin:14px 2px 8px}
+.histItem{background:var(--card); border:1.5px solid var(--line); border-left-width:5px; border-radius:13px; padding:13px; margin-bottom:10px; box-shadow:var(--shadow)}
+.histItem.adv{border-left-color:var(--green)} .histItem.same{border-left-color:var(--amber)} .histItem.back{border-left-color:var(--red)}
+.histItem.rejected{opacity:.7}
+.histTop{display:flex; justify-content:space-between; align-items:flex-start; gap:10px; margin-bottom:6px; flex-wrap:wrap}
+.histDate{font-weight:800; font-size:16px}
+.tag{font-size:11.5px; font-weight:700; padding:4px 9px; border-radius:7px; line-height:1.4}
+.tag .l-sub{display:none}
+.tag.adv{background:var(--green-bg); color:var(--green)} .tag.same{background:var(--amber-bg); color:var(--amber)} .tag.back{background:var(--red-bg); color:var(--red)}
+.tag.co{background:var(--brand-tint); color:var(--brand)} .tag.co.main{background:var(--main-bg); color:var(--main)} .tag.ex{background:#EEE9F7; color:#5B3E96}
+.histMeta{font-size:13.5px; color:var(--muted); display:flex; flex-wrap:wrap; gap:3px 14px; align-items:baseline}
+.histMeta b{color:var(--text); font-weight:700}
+.histMeta b .l-sub{display:inline; margin-left:6px}
+.histReason{margin-top:7px; font-size:13.5px; color:var(--muted); font-style:italic}
+.histFiled{margin-top:5px; font-size:12px; color:var(--muted-2)}
+.histBtns{display:flex; gap:8px; margin-top:10px; flex-wrap:wrap}
+.histBtns .miniBtn{flex:1; min-height:42px; display:inline-flex; align-items:center; justify-content:center; gap:5px; flex-wrap:wrap}
+.histBtns .miniBtn .l-sub{display:none}
+.apBadge{margin-top:8px; display:inline-flex; gap:6px; align-items:center; font-size:12.5px; font-weight:800; padding:5px 10px; border-radius:8px; border:1.5px solid}
+.apBadge .l-sub{display:inline; margin-left:4px}
+.ap-wait{color:var(--amber); background:var(--amber-bg); border-color:var(--amber-line)}
+.ap-ok{color:var(--green); background:var(--green-bg); border-color:var(--green-line)}
+.ap-no{color:var(--red); background:var(--red-bg); border-color:var(--red-line)}
+
+/* ---------- สำเร็จ + สลิป ---------- */
+.successHead{display:flex; gap:14px; align-items:center; margin:4px 2px 14px}
+.successHead .ico{width:54px; height:54px; border-radius:50%; background:var(--green); color:#fff; flex-shrink:0;
+  display:flex; align-items:center; justify-content:center; font-size:30px; font-weight:800; animation:pop .35s}
+.successHead h2{font-size:21px; margin:0; line-height:1.35}
+.successHead p{margin:2px 0 0; color:var(--muted); font-size:13.5px}
+.slipHolder{background:#fff; border-radius:18px; box-shadow:var(--shadow-lg); overflow:hidden; max-width:420px; margin:0 auto; min-height:120px}
+.slipImg{display:block; width:100%; height:auto; -webkit-touch-callout:default; user-select:auto}
+.slipBtns{display:grid; grid-template-columns:1fr 1fr; gap:10px; max-width:420px; margin:14px auto 0}
+.slipBtns .btn{flex-wrap:nowrap; padding:12px 8px; font-size:15px}
+.summaryList{text-align:left; background:var(--bg); border-radius:13px; padding:4px 14px; margin:16px 0; border:1px solid var(--line)}
+.summaryList .row{display:flex; justify-content:space-between; padding:10px 0; border-bottom:1px solid var(--line); gap:12px; align-items:baseline}
+.summaryList .row:last-child{border-bottom:none}
+.summaryList .k{color:var(--muted); font-size:13.5px; flex-shrink:0}
+.summaryList .k .l-sub{font-size:.82em}
+.summaryList .v{font-weight:700; text-align:right}
+.summaryList .v small{display:block; font-weight:500; color:var(--muted); font-size:12.5px}
+.summaryList .v .l-sub{font-weight:500}
+
+/* ---------- ตรวจสลิป ---------- */
+.verifyCard{text-align:center}
+.vTitle{font-size:19px; margin:0 0 14px; line-height:1.4}
+.vResult{display:flex; align-items:center; gap:12px; padding:14px; border-radius:14px; font-weight:800; font-size:16px; text-align:left; line-height:1.4; border:2px solid}
+.vResult .vIcon{width:44px; height:44px; border-radius:50%; color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; flex-shrink:0}
+.vResult.good{background:var(--green-bg); color:var(--green); border-color:var(--green-line)} .vResult.good .vIcon{background:var(--green)}
+.vResult.bad{background:var(--red-bg); color:var(--red); border-color:var(--red-line)} .vResult.bad .vIcon{background:var(--red)}
+.vResult.warn{background:var(--amber-bg); color:var(--amber); border-color:var(--amber-line)} .vResult.warn .vIcon{background:var(--amber)}
+.vWho{margin:16px 0 10px} .vWho b{display:block; font-size:21px} .vWho span{color:var(--muted); font-size:13.5px}
+.vItem{border:1.5px solid var(--line); border-radius:12px; padding:11px 12px; margin-bottom:8px; text-align:left}
+.vItem.cancelled{background:#FAFAFA} .vItem.cancelled .vDate,.vItem.cancelled .vMeta{text-decoration:line-through; opacity:.6}
+.vDate{font-weight:800; font-size:16px} .vMeta{font-size:13.5px; color:var(--muted)}
+.vState{display:inline-block; margin-top:6px; font-size:12.5px; font-weight:800; padding:4px 10px; border-radius:8px}
+.vState .l-sub{display:inline; margin-left:6px}
+.vState.a{background:var(--green-bg); color:var(--green)} .vState.c{background:var(--red-bg); color:var(--red)} .vState.w{background:var(--amber-bg); color:var(--amber)}
+.vNo{font-size:12px; color:var(--muted-2); margin-top:12px}
+
+/* ---------- ผู้ดูแล ---------- */
+.adminScreen{position:fixed; inset:0; background:var(--bg); z-index:60; overflow-y:auto; animation:fade .18s; -webkit-overflow-scrolling:touch}
+.adminBar{background:var(--brand-900); color:#fff; padding:12px 14px; padding-top:calc(12px + env(safe-area-inset-top)); display:flex; align-items:center; gap:12px; position:sticky; top:0; z-index:5}
+.adminBar b{font-size:17px; flex:1}
+.adminTabs{display:flex; gap:4px; padding:10px 14px 0; max-width:920px; margin:0 auto; overflow-x:auto}
+.aTab{padding:10px 14px; border-radius:10px 10px 0 0; font-weight:700; font-size:14.5px; color:var(--muted); white-space:nowrap; min-height:44px}
+.aTab.active{background:var(--card); color:var(--brand); box-shadow:0 -2px 6px rgba(18,40,61,.06)}
+.adminBody{max-width:920px; margin:0 auto; padding:14px 14px 60px}
+.toolRow{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin-bottom:10px}
+.toolRow .btn{padding:10px 6px; font-size:13.5px; min-height:48px}
+.moreTools{background:var(--card); border:1.5px solid var(--line); border-radius:12px; padding:10px 12px; margin-bottom:12px}
+.moreTools summary{font-weight:700; font-size:13.5px; color:var(--muted); cursor:pointer}
+.filterChips{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:12px}
+.filterChips:empty{display:none}
+.fChip{padding:7px 12px; border-radius:20px; border:1.5px solid var(--line-2); background:#fff; font-size:13px; font-weight:700; color:var(--muted); min-height:36px}
+.fChip.active{background:var(--brand); border-color:var(--brand); color:#fff}
+.fChip i{font-style:normal; opacity:.75; font-weight:500; margin-left:3px}
+.moveBar{position:sticky; top:62px; z-index:4; background:var(--brand-900); color:#fff; border-radius:13px; padding:10px 12px; margin-bottom:12px; display:flex; align-items:center; gap:8px; flex-wrap:wrap; box-shadow:var(--shadow-lg)}
+.moveBar span{font-weight:700; flex:1; min-width:90px}
+.moveBar .btn{padding:8px 12px; min-height:40px; font-size:13.5px}
+.moveBar .miniBtn{background:rgba(255,255,255,.16); color:#fff}
+
+.adminRow{display:flex; align-items:center; gap:10px; background:var(--card); border:1.5px solid var(--line); border-radius:13px; padding:9px 10px; margin-bottom:8px}
+.adminRow.sel{border-color:var(--brand); background:#F0F6FC}
+.adminRow .ra{width:46px; height:46px; border-radius:50%; object-fit:cover; flex-shrink:0; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:18px}
+.adminRow .rn{flex:1; min-width:0}
+.adminRow .rn b{font-size:15px; display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.adminRow .rn small{color:var(--muted); font-size:12.5px; display:flex; flex-wrap:wrap; gap:3px 6px; align-items:center}
+.adminRow .rowBtns{display:flex; gap:5px; flex-shrink:0}
+.adminRow input[type=checkbox]{width:24px; height:24px; flex-shrink:0; accent-color:var(--brand)}
+.miniBtn{padding:8px 10px; border-radius:9px; font-size:13px; font-weight:700; background:var(--bg2); color:var(--brand-900); white-space:nowrap; min-height:38px}
+.miniBtn.hide{background:var(--amber-bg); color:var(--amber)} .miniBtn.del{background:var(--red-bg); color:var(--red)}
+.pill{font-size:10.5px; font-weight:700; padding:2px 7px; border-radius:6px; background:var(--brand-tint); color:var(--brand); display:inline-block; line-height:1.5}
+.pill.off{background:#F0E6D0; color:var(--amber)} .pill.main{background:var(--main-bg); color:var(--main)} .pill.ex{background:#EEE9F7; color:#5B3E96} .pill.ok{background:var(--green-bg); color:var(--green)}
+.pill:empty{display:none}
+
+.field{margin-bottom:12px}
+.field label{display:block; font-weight:700; font-size:13.5px; margin-bottom:6px}
+.field input,.field select,.field textarea{width:100%; padding:11px 12px; border:2px solid var(--line); border-radius:10px; outline:none; background:#fff; min-height:46px}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--brand)}
+.twoCol{display:grid; grid-template-columns:1fr 1fr; gap:10px}
+.rangeRow{display:flex; gap:12px; align-items:flex-end; margin-bottom:12px; flex-wrap:wrap}
+.rangeRow .field{flex:1; min-width:150px; margin-bottom:0}
+.check{display:inline-flex; align-items:center; gap:8px; font-size:14px; font-weight:600; min-height:46px}
+.check input{width:22px; height:22px; accent-color:var(--brand)}
+.rangeNote{font-size:13px; color:var(--brand-700); font-weight:600; margin:-4px 0 12px}
+.miniList{margin-top:14px} .miniList:empty{display:none}
+.uploadPrev{width:92px; height:92px; border-radius:50%; object-fit:cover; border:3px solid #fff; box-shadow:var(--shadow); margin:0 auto 8px; display:flex; align-items:center; justify-content:center; color:#fff; font-weight:800; font-size:34px; background:var(--bg2)}
+.impPreview{font-size:13px; margin-top:10px; max-height:190px; overflow-y:auto}
+.impPreview table{width:100%; border-collapse:collapse}
+.impPreview td,.impPreview th{border-bottom:1px solid var(--line); padding:5px 6px; text-align:left; font-size:12.5px}
+.impPreview th{color:var(--muted); font-weight:700; position:sticky; top:0; background:#fff}
+.impPreview tr.bad td{color:var(--red)}
+
+.statGrid{display:grid; grid-template-columns:repeat(auto-fit,minmax(120px,1fr)); gap:9px; margin-bottom:14px}
+.statCard{background:var(--card); border:1.5px solid var(--line); border-radius:14px; padding:13px; box-shadow:var(--shadow)}
+.statCard .sv{font-size:26px; font-weight:800; color:var(--brand); line-height:1.2}
+.statCard .sl{font-size:12.5px; color:var(--muted); margin-top:3px}
+.bar{display:flex; align-items:center; gap:10px; margin-bottom:8px}
+.bar .bl{width:96px; font-size:13px; flex-shrink:0; text-align:right; color:var(--muted)}
+.bar .bt{flex:1; background:var(--bg2); border-radius:6px; height:20px; overflow:hidden}
+.bar .bf{height:100%; background:var(--brand); border-radius:6px; min-width:2px}
+.bar .bv{font-size:13px; font-weight:700; width:72px; flex-shrink:0}
+.verFoot{text-align:center; color:var(--muted-2); font-size:12px; padding:14px 0 24px}
+
+.toast{position:fixed; left:50%; bottom:110px; transform:translateX(-50%) translateY(20px); opacity:0; pointer-events:none;
+  background:var(--brand-900); color:#fff; padding:12px 18px; border-radius:12px; font-weight:600; font-size:14.5px;
+  box-shadow:var(--shadow-lg); z-index:90; transition:all .25s; max-width:92vw; text-align:center; line-height:1.6}
+.toast.show{opacity:1; transform:translateX(-50%) translateY(0)}
+.toast.err{background:#B02A37}
+
+.secretDot{display:none}
+
+@media (max-width:420px){
+  .empGrid{grid-template-columns:repeat(2,1fr)}
+  .app-header .ht span{display:none}
+  .toolRow .btn{font-size:12.5px}
+}
+@media (max-width:340px){ .timeline{grid-template-columns:1fr} .langSwitch button{padding:7px 7px; font-size:12px} }
+@media (min-width:700px){ .timeline{grid-template-columns:repeat(4,1fr)} .slot.lunch{grid-column:1/-1} }
+@media (prefers-reduced-motion:reduce){*{animation:none !important; transition:none !important}}
+
+/* ============ โอที ============ */
+.subTabs.three .subTab{font-size:14px; padding:9px 4px}
+.subTab.ot.active{color:var(--ot)}
+.btn-ot{background:var(--ot) !important; box-shadow:0 4px 14px rgba(62,127,20,.28) !important}
+.otGroup{grid-column:1/-1; font-size:12.5px; font-weight:800; color:var(--muted); margin:6px 2px 0; display:flex; align-items:center; gap:8px; line-height:1.5}
+.otGroup:first-child{margin-top:0}
+.otGroup::after{content:""; flex:1; height:1.5px; background:var(--line)}
+.otGroup .l-sub{display:inline; margin-left:6px}
+.otTimeline .slot.on{border-color:var(--ot); background:var(--ot-bg)}
+.otTimeline .slot.on .tk{background:var(--ot); border-color:var(--ot)}
+.otTimeline .slot.taken{background:#F3F2EF; border-style:dashed; border-color:#E4E1DA; color:var(--muted-2); cursor:default}
+.otTimeline .slot.taken .tk{border:none; background:none; color:var(--muted-2); font-size:13px}
+.otTimeline .slot .lz{font-size:11.5px; margin-left:auto; font-weight:700; color:var(--muted-2)}
+.hourTotal.ot{color:var(--ot); background:var(--ot-bg); border-color:var(--ot-line)}
+.note-ot{color:var(--ot); background:var(--ot-bg); border:1.5px solid var(--ot-line); font-weight:600}
+.histItem.ot{border-left-color:var(--accent)} .histItem.ot.wait{border-left-color:var(--amber)} .histItem.ot.dead{border-left-color:var(--muted-2); opacity:.72}
+.tag.ot{background:var(--ot-bg); color:var(--ot)} .tag.off{background:#FDEBD8; color:#9A4A00}
+.histSwitch{display:flex; background:var(--bg2); border-radius:12px; padding:4px; gap:4px; margin-bottom:12px}
+.histSwitch button{flex:1; padding:8px 6px; border-radius:9px; font-weight:700; font-size:14px; color:var(--muted); min-height:40px; line-height:1.35}
+.histSwitch button.active{background:#fff; color:var(--brand); box-shadow:0 1px 4px rgba(18,40,61,.12)}
+.histSwitch button i{font-style:normal; font-weight:600; opacity:.7; margin-left:4px; font-size:12.5px}
+.useCard.ot .uv{color:var(--ot)}
+/* ผู้ดูแล: ลงโอทีหลายคน */
+.pickTools{display:flex; gap:6px; flex-wrap:wrap; margin-bottom:10px}
+.pickTools .miniBtn{flex:1; min-width:86px}
+.pickTools .miniBtn.main{background:var(--ot); color:#fff}
+.pickList{max-height:360px; overflow-y:auto; border:1.5px solid var(--line); border-radius:12px; margin-bottom:12px; background:#fff; -webkit-overflow-scrolling:touch}
+.pickRow{display:flex; align-items:center; gap:10px; padding:9px 12px; border-bottom:1px solid var(--line); cursor:pointer; min-height:48px}
+.pickRow:last-child{border-bottom:none}
+.pickRow input{width:24px; height:24px; flex-shrink:0; accent-color:var(--ot)}
+.pickRow b{font-size:14.5px; flex:1; min-width:0; white-space:nowrap; overflow:hidden; text-overflow:ellipsis}
+.pickRow small{color:var(--muted); font-size:12px; flex-shrink:0}
+.pickRow.sel{background:var(--ot-bg)}
+.pickRow.dis{opacity:.5; cursor:default; background:#F6F6F4}
+.otSumTable{width:100%; border-collapse:collapse; font-size:13px}
+.otSumTable th,.otSumTable td{padding:7px 6px; border-bottom:1px solid var(--line); text-align:right; white-space:nowrap}
+.otSumTable th:first-child,.otSumTable td:first-child{text-align:left; white-space:normal}
+.otSumTable th{color:var(--muted); font-weight:700; font-size:12px}
+.otSumTable td.t{font-weight:800; color:var(--ot)}
+.otSumTable tfoot td{font-weight:800; border-top:2px solid var(--line-2); border-bottom:none}
+.statCard.ot .sv{color:var(--ot)}
+.btn-ot:disabled{background:#B9CFA8 !important; box-shadow:none !important; cursor:not-allowed}
+#dlgModal{z-index:120}   /* กล่องยืนยันต้องอยู่บนสุดเสมอ (เช่น เปิดซ้อนบนหน้าต่างแก้ไขพนักงาน) */
+/* ประกาศวันหยุดพิเศษ / วันทำงานพิเศษ (หน้าเลือกชื่อ) */
+.calNotice{background:var(--card); border:1.5px solid var(--line); border-radius:var(--r); padding:8px 12px; margin:4px 0 12px; box-shadow:var(--shadow)}
+.calRow{display:flex; align-items:center; gap:10px; padding:6px 0; border-bottom:1px dashed var(--line)}
+.calRow:last-child{border-bottom:none}
+.calRow .ci{font-size:15px; flex-shrink:0}
+.calRow b{display:block; font-size:14.5px; line-height:1.4}
+.calRow .l-my{display:block; font-size:12.5px; color:var(--muted); line-height:1.7}
+.calRow.w b{color:var(--ot)} .calRow.h b{color:var(--red)}

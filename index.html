@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<!-- ระบบแจ้งลา + โอที — index.html — v1.0 -->
+<!-- แจ้งลา / แจ้งโอที / สลิป (QR ตรวจสอบได้) / หน้าผู้ดูแล — ไทย + พม่า -->
+<html lang="th">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#163A5C">
+<link rel="icon" type="image/png" href="logo.png">
+<meta name="robots" content="noindex">
+<title>แจ้งลา · โอที | ခွင့်တင် · အိုတီ</title>
+<link rel="preload" href="fonts/noto-sans-thai-looped-thai-400-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="fonts/noto-sans-thai-looped-thai-700-normal.woff2" as="font" type="font/woff2" crossorigin>
+<!-- เวลาแก้ไฟล์ ให้บวกเลข ?v= เพื่อให้เบราว์เซอร์โหลดของใหม่ -->
+<link rel="stylesheet" href="styles.css?v=1.0">
+</head>
+<body>
+
+<header class="app-header">
+  <img id="hdrLogo" src="logo.png" alt="" onerror="this.style.display='none'">
+  <div class="ht">
+    <b>แจ้งลา · โอที</b>
+    <span class="l-my">ခွင့်တင် · အိုတီ</span>
+  </div>
+  <div class="header-spacer"></div>
+  <div class="langSwitch" role="group" aria-label="ภาษา / ဘာသာစကား">
+    <button id="langTH" type="button">ไทย</button>
+    <button id="langMY" type="button" class="l-my">မြန်မာ</button>
+  </div>
+  <button class="icon-btn" id="refreshBtn" type="button" aria-label="รีเฟรช">↻</button>
+</header>
+
+<!-- SCREEN 0: ตรวจสอบสลิป (เปิดจาก QR) -->
+<main class="wrap hidden" id="screenVerify">
+  <div class="fblock verifyCard" id="verifyCard"></div>
+  <button class="btn btn-line btn-block" id="verifyHome" type="button" data-i18n="v_home"></button>
+</main>
+
+<!-- SCREEN 1: เลือกพนักงาน -->
+<main class="wrap" id="screenSelect">
+  <h1 class="section-title" data-i18n-bi="choose_name"></h1>
+  <p class="section-sub" data-i18n-bi="choose_sub"></p>
+  <div class="coTabs hidden" id="coTabs" role="tablist">
+    <button class="coTab active" data-co="ALT" id="coALT" type="button"><b>ALT</b><span class="cnt" id="cntALT"></span></button>
+    <button class="coTab" data-co="MAIN" id="coMAIN" type="button"><b>MAIN</b><span class="cnt" id="cntMAIN"></span></button>
+  </div>
+  <div id="calNotice" class="calNotice hidden"></div>
+  <div class="natTabs" role="tablist">
+    <button class="natTab active" data-nat="TH" id="tabTH" type="button"><span class="flag">🇹🇭</span><span>คนไทย</span><span class="cnt" id="cntTH">—</span></button>
+    <button class="natTab" data-nat="MM" id="tabMM" type="button"><span class="flag">🇲🇲</span><span class="l-my">မြန်မာ</span><span class="cnt" id="cntMM">—</span></button>
+  </div>
+  <div class="searchBar"><span class="si" aria-hidden="true">🔎</span><input type="search" id="searchInput" data-i18n-ph="search_ph" autocomplete="off"></div>
+  <div id="empContainer"><div class="loading"><div class="spinner"></div></div></div>
+  <div class="adminLink"><button type="button" id="adminLink">🔒 สำหรับผู้ดูแล</button></div>
+</main>
+
+<!-- SCREEN 2: แจ้งลา / ประวัติ -->
+<main class="wrap hidden" id="screenForm">
+  <div class="personBar">
+    <div class="pa" id="pbAvatar"></div>
+    <div class="pn"><b id="pbName">—</b><small id="pbSub"></small></div>
+    <button class="linkBtn" id="changePersonBtn" type="button" data-i18n="change_person"></button>
+  </div>
+  <div class="subTabs three">
+    <button class="subTab active" id="stLeave" type="button" data-i18n="tab_leave"></button>
+    <button class="subTab ot" id="stOT" type="button" data-i18n="tab_ot"></button>
+    <button class="subTab" id="stHistory" type="button" data-i18n="tab_history"></button>
+  </div>
+
+  <section id="paneLeave">
+    <div class="fblock">
+      <div class="flabel"><span class="num">1</span><span data-i18n="step_type"></span></div>
+      <div class="chips" id="leaveTypeChips">
+        <button class="chip active" data-type="ลากิจ" type="button"><span class="ci">📝</span><span data-i18n="type_personal"></span></button>
+        <button class="chip" data-type="ลาป่วย" type="button"><span class="ci">🤒</span><span data-i18n="type_sick"></span></button>
+        <button class="chip" data-type="ลาพักร้อน" type="button"><span class="ci">🌴</span><span data-i18n="type_vacation"></span></button>
+      </div>
+      <div id="vacaNote" class="note note-amber hidden">🌴 <span data-i18n="vaca_note"></span></div>
+    </div>
+    <div class="fblock">
+      <div class="flabel"><span class="num">2</span><span data-i18n="step_date"></span></div>
+      <div class="subTabs" id="dayModeToggle">
+        <button class="subTab active" id="modeSingle" type="button" data-i18n="one_day"></button>
+        <button class="subTab" id="modeRange" type="button" data-i18n="many_days"></button>
+      </div>
+      <div id="singleDateWrap">
+        <input type="date" class="dateInput" id="leaveDate">
+        <div class="dateEcho" id="dateEcho"></div>
+      </div>
+      <div id="rangeDateWrap" class="hidden">
+        <label class="mini" for="dateFrom" data-i18n="from_date"></label>
+        <input type="date" class="dateInput" id="dateFrom">
+        <label class="mini" for="dateTo" data-i18n="to_date" style="margin-top:12px"></label>
+        <input type="date" class="dateInput" id="dateTo">
+        <div class="note" id="rangeInfo">ℹ️ <span data-i18n="range_info"></span></div>
+      </div>
+      <div id="statusWrap"></div>
+      <div id="sundayWrap"></div>
+    </div>
+    <div class="fblock" id="timeBlock">
+      <div class="timelineHead">
+        <div class="flabel" style="margin:0"><span class="num">3</span><span data-i18n="step_time"></span></div>
+        <div class="hourTotal zero" id="hourTotal"></div>
+      </div>
+      <div class="quickPick">
+        <button class="qbtn" id="btnFull" type="button"><span data-i18n="full_day"></span><small>08:00–17:00</small></button>
+        <button class="qbtn" id="btnAM" type="button"><span data-i18n="half_am"></span><small>08:00–12:00</small></button>
+        <button class="qbtn" id="btnPM" type="button"><span data-i18n="half_pm"></span><small>13:00–17:00</small></button>
+      </div>
+      <div class="timeline" id="timeline"></div>
+    </div>
+    <div class="fblock">
+      <div class="flabel"><span class="num" id="reasonNum">4</span><span data-i18n="step_reason"></span></div>
+      <textarea class="reason" id="reasonInput" data-i18n-ph="reason_ph" maxlength="500"></textarea>
+    </div>
+    <div class="submitBar">
+      <div class="submitSummary" id="submitSummary"></div>
+      <button class="btn btn-primary btn-lg" id="submitBtn" type="button" data-i18n="submit"></button>
+    </div>
+  </section>
+
+  <!-- แจ้งโอที -->
+  <section id="paneOT" class="hidden">
+    <div class="fblock">
+      <div class="flabel"><span class="num">1</span><span data-i18n="ot_step_date"></span></div>
+      <input type="date" class="dateInput" id="otDate">
+      <div class="dateEcho" id="otDateEcho"></div>
+      <div id="otDayNote"></div>
+    </div>
+    <div class="fblock">
+      <div class="timelineHead">
+        <div class="flabel" style="margin:0"><span class="num">2</span><span data-i18n="ot_step_time"></span></div>
+        <div class="hourTotal zero" id="otHourTotal"></div>
+      </div>
+      <p class="desc" data-i18n="ot_time_hint"></p>
+      <div class="timeline otTimeline" id="otTimeline"></div>
+    </div>
+    <div class="fblock">
+      <div class="flabel"><span class="num">3</span><span data-i18n="ot_step_note"></span></div>
+      <textarea class="reason" id="otNote" data-i18n-ph="ot_note_ph" maxlength="300"></textarea>
+    </div>
+    <div class="submitBar">
+      <div class="submitSummary" id="otSubmitSummary"></div>
+      <button class="btn btn-primary btn-lg btn-ot" id="otSubmitBtn" type="button" data-i18n="ot_submit"></button>
+    </div>
+  </section>
+
+  <section id="paneHistory" class="hidden">
+    <div id="historyContainer"><div class="loading"><div class="spinner"></div></div></div>
+  </section>
+</main>
+
+<!-- SCREEN 3: สำเร็จ + สลิป -->
+<main class="wrap hidden" id="screenSuccess">
+  <div class="successHead">
+    <div class="ico" aria-hidden="true">✓</div>
+    <div>
+      <h2 id="successTitle" data-i18n="success_title"></h2>
+      <p id="successSub" data-i18n="success_sub"></p>
+    </div>
+  </div>
+  <div class="slipHolder" id="successSlip"></div>
+  <div class="slipBtns">
+    <button class="btn btn-primary" id="slipSaveBtn" type="button">⬇️ <span data-i18n="save_slip"></span></button>
+    <button class="btn btn-ghost" id="slipShareBtn" type="button">📤 <span data-i18n="share_slip"></span></button>
+  </div>
+  <p class="hint" data-i18n="longpress_hint"></p>
+  <button class="btn btn-line btn-block" id="againBtn" type="button" data-i18n="again"></button>
+  <button class="btn btn-line btn-block" style="margin-top:10px" id="doneBtn" type="button" data-i18n="done"></button>
+</main>
+
+<!-- ยืนยันตัวตน -->
+<div class="overlay hidden" id="confirmModal">
+  <div class="modal">
+    <div class="bigAvatar" id="cmAvatar"></div>
+    <div class="bigName" id="cmName">—</div>
+    <p class="q" data-i18n-bi="is_it_you"></p>
+    <div class="modalBtns">
+      <button class="btn btn-line" id="cmCancel" type="button" data-i18n-bi="no"></button>
+      <button class="btn btn-primary" id="cmConfirm" type="button" data-i18n-bi="yes_me"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ยืนยันส่งใบลา -->
+<div class="overlay hidden" id="confirmSubmitModal">
+  <div class="modal modal-wide">
+    <div class="bigName" style="font-size:21px" id="csTitle" data-i18n="confirm_title"></div>
+    <div class="summaryList" id="confirmSummary"></div>
+    <div class="modalBtns">
+      <button class="btn btn-line" id="csCancel" type="button" data-i18n="cancel"></button>
+      <button class="btn btn-primary" id="csConfirm" type="button" data-i18n="confirm_send"></button>
+    </div>
+  </div>
+</div>
+
+<!-- ดูสลิปจากประวัติ -->
+<div class="overlay hidden" id="slipModal">
+  <div class="modal modal-wide modal-slip">
+    <div class="slipHolder" id="modalSlip"></div>
+    <div class="slipBtns">
+      <button class="btn btn-primary" id="mSlipSave" type="button">⬇️ <span data-i18n="save_slip"></span></button>
+      <button class="btn btn-ghost" id="mSlipShare" type="button">📤 <span data-i18n="share_slip"></span></button>
+    </div>
+    <p class="hint" data-i18n="longpress_hint"></p>
+    <button class="btn btn-line btn-block" id="mSlipClose" type="button" data-i18n="close"></button>
+  </div>
+</div>
+
+<!-- กล่องถาม/ยืนยัน/กรอกข้อความ (ใช้แทน alert/confirm/prompt ของเบราว์เซอร์) -->
+<div class="overlay hidden" id="dlgModal">
+  <div class="modal modal-wide">
+    <div class="bigName" style="font-size:19px" id="dlgTitle"></div>
+    <div class="dlgBody" id="dlgBody"></div>
+    <textarea class="reason hidden" id="dlgInput" maxlength="500"></textarea>
+    <input type="date" class="dateInput hidden" id="dlgDate">
+    <div class="modalBtns" id="dlgBtns">
+      <button class="btn btn-line" id="dlgCancel" type="button"></button>
+      <button class="btn btn-primary" id="dlgOk" type="button"></button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin PIN -->
+<div class="overlay hidden" id="pinModal">
+  <div class="modal">
+    <div style="font-size:38px; margin-bottom:6px" aria-hidden="true">🔒</div>
+    <div class="bigName" style="font-size:20px">เข้าสู่ระบบผู้ดูแล</div>
+    <p class="q">กรอกรหัส PIN</p>
+    <input type="password" inputmode="numeric" id="pinInput" class="dateInput pinInput" placeholder="••••" maxlength="12" autocomplete="off">
+    <div class="modalBtns" style="margin-top:18px">
+      <button class="btn btn-line" id="pinCancel" type="button">ยกเลิก</button>
+      <button class="btn btn-primary" id="pinSubmit" type="button">เข้าสู่ระบบ</button>
+    </div>
+  </div>
+</div>
+
+<!-- Admin screen -->
+<div class="adminScreen hidden" id="adminScreen">
+  <div class="adminBar"><b>⚙️ ผู้ดูแลระบบ</b><button class="icon-btn" id="adminClose" type="button">ปิด ✕</button></div>
+  <div class="adminTabs">
+    <button class="aTab active" id="atEmp" type="button">พนักงาน</button>
+    <button class="aTab" id="atDash" type="button">สรุปการลา</button>
+    <button class="aTab" id="atLeaves" type="button">ใบลา</button>
+    <button class="aTab" id="atOT" type="button">⏱ โอที</button>
+    <button class="aTab" id="atSet" type="button">ตั้งค่า</button>
+  </div>
+  <div class="adminBody">
+    <!-- พนักงาน -->
+    <div id="adminEmpPane">
+      <div class="toolRow" style="grid-template-columns:1fr 1fr">
+        <button class="btn btn-primary" id="addEmpBtn" type="button">+ เพิ่มพนักงาน</button>
+        <button class="btn btn-ghost" id="importEmpBtn" type="button">📋 นำเข้ารายชื่อ</button>
+        <button class="btn btn-ghost hidden" id="selectModeBtn" type="button">🔁 ย้ายบริษัท</button>
+      </div>
+      <details class="moreTools">
+        <summary>รูปพนักงาน (อัปโหลด/ซิงค์)</summary>
+        <button class="btn btn-ghost btn-block" id="batchPhotoBtn" type="button" style="margin:10px 0">📷 อัปโหลดรูปหลายคนพร้อมกัน</button>
+        <button class="btn btn-ghost btn-block" id="syncDriveBtn" type="button">🔄 ซิงค์รูปจากโฟลเดอร์ Drive</button>
+        <p class="hint" style="text-align:left">วางรูปในโฟลเดอร์ Drive ชื่อ <b>Leave_Photos</b> ตั้งชื่อไฟล์เป็นรหัสพนักงาน (เช่น <code>K001.jpg</code>) แล้วกดซิงค์</p>
+      </details>
+      <div class="filterChips" id="empCoFilter"></div>
+      <div class="searchBar"><span class="si" aria-hidden="true">🔎</span><input type="search" id="adminSearch" placeholder="ค้นหาชื่อ / รหัส" autocomplete="off"></div>
+      <div class="moveBar hidden" id="moveBar">
+        <span id="moveCount">เลือก 0 คน</span>
+        <button class="miniBtn" id="moveAllBtn" type="button">เลือกทั้งหมดที่เห็น</button>
+        <button class="btn btn-primary" id="moveToMainBtn" type="button">ย้ายไป MAIN</button>
+        <button class="btn btn-line" id="moveToAltBtn" type="button">ย้ายกลับ ALT</button>
+        <button class="miniBtn" id="moveCancelBtn" type="button">เลิก</button>
+      </div>
+      <div id="adminEmpList"><div class="loading"><div class="spinner"></div>กำลังโหลด...</div></div>
+    </div>
+    <!-- สรุปการลา -->
+    <div id="adminDashPane" class="hidden">
+      <div class="rangeRow">
+        <div class="field"><label for="dashMonth">เดือน</label><input type="month" id="dashMonth"></div>
+        <label class="check"><input type="checkbox" id="dashCycle" checked> ตามรอบเงินเดือน</label>
+      </div>
+      <div class="filterChips" id="dashCoFilter"></div>
+      <div id="dashContent"><div class="loading"><div class="spinner"></div>กำลังโหลด...</div></div>
+    </div>
+    <!-- ใบลา -->
+    <div id="adminLeavesPane" class="hidden">
+      <div class="rangeRow">
+        <div class="field"><label for="leavesMonth">เดือน</label><input type="month" id="leavesMonth"></div>
+        <label class="check"><input type="checkbox" id="leavesCycle" checked> ตามรอบเงินเดือน</label>
+      </div>
+      <div class="filterChips" id="leavesCoFilter"></div>
+      <button class="btn btn-ghost btn-block" id="exportBtn" type="button" style="margin-bottom:12px">⬇️ ส่งออกรายการที่เห็นเป็นไฟล์ Excel (.csv)</button>
+      <div class="searchBar"><span class="si" aria-hidden="true">🔎</span><input type="search" id="leavesSearch" placeholder="ค้นหาชื่อ / รหัส" autocomplete="off"></div>
+      <div id="leavesContent"><div class="loading"><div class="spinner"></div>กำลังโหลด...</div></div>
+    </div>
+    <!-- โอที -->
+    <div id="adminOTPane" class="hidden">
+      <div class="fblock">
+        <div class="flabel">⏱ ลงโอทีให้พนักงาน (ทีเดียวหลายคน)</div>
+        <p class="desc">เลือกวันและช่วงเวลา กด "เลือกทุกคน" แล้วติ๊กออกคนที่ไม่ได้ทำ — บันทึกแล้วนับเป็นโอทีทันที ไม่ต้องรอยืนยัน</p>
+        <div class="field"><label for="aotDate">วันที่ทำโอที</label><input type="date" id="aotDate"></div>
+        <div id="aotDayNote"></div>
+        <div class="timelineHead" style="margin-top:12px">
+          <div class="flabel" style="margin:0">ช่วงเวลา</div>
+          <div class="hourTotal zero" id="aotHourTotal"></div>
+        </div>
+        <div class="timeline otTimeline" id="aotTimeline"></div>
+        <div class="field" style="margin-top:14px"><label for="aotNote">หมายเหตุ (ไม่บังคับ)</label><input type="text" id="aotNote" maxlength="300" placeholder="เช่น เร่งออเดอร์" autocomplete="off"></div>
+        <div class="flabel" style="margin-top:6px">เลือกพนักงาน <span class="pill" id="aotCount"></span></div>
+        <div class="pickTools">
+          <button class="miniBtn main" id="aotAll" type="button">✓ เลือกทุกคน</button>
+          <button class="miniBtn" id="aotTH" type="button">🇹🇭 เฉพาะไทย</button>
+          <button class="miniBtn" id="aotMM" type="button">🇲🇲 เฉพาะพม่า</button>
+          <button class="miniBtn" id="aotNone" type="button">ล้างที่เลือก</button>
+        </div>
+        <div class="searchBar"><span class="si" aria-hidden="true">🔎</span><input type="search" id="aotSearch" placeholder="ค้นหาชื่อ / รหัส" autocomplete="off"></div>
+        <div class="pickList" id="aotList"><div class="loading"><div class="spinner"></div>กำลังโหลด...</div></div>
+        <button class="btn btn-primary btn-block btn-ot" id="aotSave" type="button">บันทึกโอที</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">📋 รายการโอที</div>
+        <div class="rangeRow">
+          <div class="field"><label for="otMonth">เดือน</label><input type="month" id="otMonth"></div>
+          <label class="check"><input type="checkbox" id="otCycle" checked> ตามรอบเงินเดือน</label>
+        </div>
+        <div id="otSummary"></div>
+        <div class="filterChips" id="otStFilter"></div>
+        <button class="btn btn-ghost btn-block" id="otExportBtn" type="button" style="margin-bottom:12px">⬇️ ส่งออกรายการที่เห็นเป็นไฟล์ Excel (.csv)</button>
+        <div class="searchBar"><span class="si" aria-hidden="true">🔎</span><input type="search" id="otSearch" placeholder="ค้นหาชื่อ / รหัส" autocomplete="off"></div>
+        <div id="otContent"><div class="loading"><div class="spinner"></div>กำลังโหลด...</div></div>
+      </div>
+    </div>
+    <!-- ตั้งค่า -->
+    <div id="adminSetPane" class="hidden">
+      <div class="fblock">
+        <div class="flabel">🔁 สลับวันหยุด</div>
+        <p class="desc">เลือกวันหยุดที่จะให้มาทำงาน คู่กับวันที่จะหยุดแทน ระบบตั้งให้ทั้งสองวันพร้อมกัน (ลบรายการใดรายการหนึ่ง อีกรายการจะถูกลบด้วย) — ทำใน Telegram ได้เช่นกัน: ปุ่ม ➕ เพิ่มเติม → 🔁 วันหยุด · สลับวัน</p>
+        <div class="twoCol">
+          <div class="field"><label for="swWork">วันหยุดที่จะให้ <b>มาทำงาน</b></label><input type="date" id="swWork"></div>
+          <div class="field"><label for="swOff">วันที่จะ <b>หยุดแทน</b></label><input type="date" id="swOff"></div>
+        </div>
+        <div class="dateEcho" id="swEcho" style="text-align:left; margin:-4px 0 10px"></div>
+        <button class="btn btn-primary btn-block" id="swSaveBtn" type="button">🔁 สลับวันหยุด</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">📅 วันหยุดบริษัท</div>
+        <p class="desc">วันที่ใส่ไว้ พนักงานจะลาทับไม่ได้ (กันโดนหักเงินฟรี)</p>
+        <div class="field"><label for="holDate">วันที่</label><input type="date" id="holDate"></div>
+        <div class="field"><label for="holName">ชื่อวันหยุด</label><input type="text" id="holName" placeholder="เช่น สงกรานต์"></div>
+        <button class="btn btn-ghost btn-block" id="addHolBtn" type="button">+ เพิ่มวันหยุด</button>
+        <div id="holList" class="miniList"></div>
+      </div>
+      <div class="fblock">
+        <div class="flabel">🔁 วันทำงานพิเศษ (สลับวันหยุด)</div>
+        <p class="desc">วันอาทิตย์หรือวันหยุดที่ต้องมาทำงาน เพิ่มที่นี่ พนักงานจะลาวันนั้นได้ตามปกติ ส่วนวันที่ไปหยุดชดเชยแทน ให้เพิ่มใน "วันหยุดบริษัท" ด้านบน</p>
+        <div class="field"><label for="workDate">วันที่ (ที่ต้องมาทำงาน)</label><input type="date" id="workDate"></div>
+        <div class="field"><label for="workName">หมายเหตุ</label><input type="text" id="workName" placeholder="เช่น สลับหยุดอาทิตย์มาทำงาน"></div>
+        <button class="btn btn-ghost btn-block" id="addWorkBtn" type="button">+ เพิ่มวันทำงานพิเศษ</button>
+        <div id="workList" class="miniList"></div>
+      </div>
+      <div class="fblock">
+        <div class="flabel">💰 รอบเงินเดือน</div>
+        <p class="desc">วันตัดรอบเงินเดือน เช่น 25 = รอบวันที่ 26 เดือนก่อน ถึง 25 เดือนนี้ (ใช้ทั้งยอดลาและยอดโอที)</p>
+        <div class="field"><label for="setCutoff">ตัดรอบทุกวันที่</label><input type="number" id="setCutoff" min="1" max="28" inputmode="numeric"></div>
+        <input type="hidden" id="setCutoffMain">
+        <button class="btn btn-ghost btn-block" id="saveCutoffBtn" type="button">บันทึกรอบเงินเดือน</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">⏱ โอที</div>
+        <div class="field"><label for="setOtBack">พนักงานแจ้งโอทีย้อนหลังได้กี่วัน (0 = ได้เฉพาะวันที่ทำ)</label><input type="number" id="setOtBack" min="0" max="62" inputmode="numeric"></div>
+        <label class="check" style="margin-bottom:12px"><input type="checkbox" id="setOtConfirm"> โอทีที่พนักงานแจ้งเอง ต้องมีคนยืนยันก่อนจึงนับ</label>
+        <button class="btn btn-ghost btn-block" id="saveOtSetBtn" type="button">บันทึกการตั้งค่าโอที</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">📨 Telegram</div>
+        <p class="desc">แจ้งเตือนเข้ากลุ่มทุกครั้งที่มีคนลาหรือแจ้งโอที เว้นช่อง Token ว่างไว้ = ใช้ค่าเดิม<br>ครั้งแรก: วาง Token แล้วกดบันทึก (ช่อง Chat ID เว้นว่างได้ ระบบหาให้ตอนกด "เชื่อม Telegram" ในชีต)</p>
+        <div class="field"><label for="setTgToken">Bot Token <span id="tgTokenState" class="pill"></span></label><input type="text" id="setTgToken" placeholder="เว้นว่าง = ไม่เปลี่ยน" autocomplete="off"></div>
+        <div class="field"><label for="setTgChat">Chat ID (กลุ่ม)</label><input type="text" id="setTgChat" placeholder="-1001234567890" autocomplete="off"></div>
+        <button class="btn btn-ghost btn-block" id="saveTgBtn" type="button">บันทึก Telegram</button>
+        <button class="btn btn-line btn-block" style="margin-top:10px" id="testTgBtn" type="button">📤 ทดสอบส่งข้อความ</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">🔑 เปลี่ยนรหัส PIN ผู้ดูแล</div>
+        <div class="note note-amber hidden" id="pinWarn" style="margin:0 0 12px">⚠️ ตอนนี้ยังใช้ PIN เริ่มต้น <b>1234</b> ซึ่งเดาได้ง่าย ควรเปลี่ยนเป็นรหัสของคุณเอง</div>
+        <div class="field"><label for="setPin">PIN ใหม่ (อย่างน้อย 4 ตัว)</label><input type="password" id="setPin" inputmode="numeric" autocomplete="new-password"></div>
+        <button class="btn btn-ghost btn-block" id="savePinBtn" type="button">เปลี่ยน PIN</button>
+      </div>
+      <div class="fblock">
+        <div class="flabel">ℹ️ ทำในไฟล์ Google Sheet</div>
+        <p class="desc" style="margin:0; line-height:1.8">• คู่มือและคำอธิบายทุกชีต: ชีตแรกชื่อ <b>อ่านก่อน</b><br>• ค่าแรงรายวันและโควต้าลา: กรอกในชีต <b>รายวัน_TH / รายวัน_MM</b><br>• ยอดลา + ยอดโอที ตามรอบเงินเดือน: ชีต <b>Payroll_TH / Payroll_MM</b><br>• รายการโอทีทั้งหมด: ชีต <b>OT</b><br>• ส่งออกไฟล์สรุปให้ฝ่ายบัญชี และเชื่อม Telegram: เมนู <b>ระบบลา</b> ด้านบนของชีต</p>
+      </div>
+      <div class="verFoot" id="verFoot"></div>
+    </div>
+  </div>
+</div>
+
+<!-- เพิ่ม/แก้ พนักงาน -->
+<div class="overlay hidden" id="empModal">
+  <div class="modal modal-wide" style="text-align:left">
+    <div class="bigName" style="font-size:20px; text-align:center; margin-bottom:16px" id="empModalTitle">เพิ่มพนักงาน</div>
+    <div style="text-align:center">
+      <div class="uploadPrev" id="empPrev">?</div>
+      <label class="miniBtn" style="display:inline-block; cursor:pointer; margin-bottom:14px">📷 เลือกรูป<input type="file" id="empPhoto" accept="image/*" class="hidden"></label>
+    </div>
+    <select id="empCo" class="hidden"><option value="MAIN">MAIN</option></select>
+    <div class="twoCol">
+      <div class="field"><label for="empNat">สัญชาติ *</label><select id="empNat"><option value="TH">คนไทย</option><option value="MM">พม่า</option></select></div>
+      <div class="field" id="empIdField"><label for="empIdInput">รหัสพนักงาน</label><input type="text" id="empIdInput" placeholder="เว้นว่าง = ระบบตั้งให้" autocomplete="off" maxlength="20"></div>
+    </div>
+    <p class="hint hidden" id="empIdHint" style="text-align:left; margin:-4px 0 12px">แก้รหัสได้ — ระบบจะเปลี่ยนรหัสในใบลาและโอทีเก่าของคนนี้ให้ครบ</p>
+    <div class="field"><label for="empNameTh">ชื่อ (ไทย/ทับศัพท์) *</label><input type="text" id="empNameTh" autocomplete="off"></div>
+    <div class="field"><label for="empNameMm">ชื่อ (อักษรพม่า / อังกฤษ)</label><input type="text" id="empNameMm" placeholder="สำหรับพนักงานพม่า" autocomplete="off"></div>
+    <div class="field"><label for="empNote">ตำแหน่ง / หมายเหตุ</label><input type="text" id="empNote" autocomplete="off"></div>
+    <div class="modalBtns" style="margin-top:6px">
+      <button class="btn btn-line" id="empCancel" type="button">ยกเลิก</button>
+      <button class="btn btn-primary" id="empSave" type="button">บันทึก</button>
+    </div>
+  </div>
+</div>
+
+<!-- นำเข้ารายชื่อ (วางจาก Excel) -->
+<div class="overlay hidden" id="importModal">
+  <div class="modal modal-wide" style="text-align:left; max-width:560px">
+    <div class="bigName" style="font-size:20px; text-align:center; margin-bottom:6px">นำเข้ารายชื่อพนักงาน</div>
+    <p class="desc" style="text-align:center">คัดลอกจาก Excel แล้ววางในช่องด้านล่าง 1 บรรทัด = 1 คน<br>เรียงคอลัมน์: <b>รหัส · ชื่อไทย · ชื่อพม่า/อังกฤษ · สัญชาติ (TH/MM) · ตำแหน่ง</b><br>ไม่มีรหัสก็ได้ (เว้นช่องแรกว่าง ระบบตั้งรหัสให้)</p>
+    <select id="impCo" class="hidden"><option value="MAIN">MAIN</option></select>
+    <div class="field"><label for="impNat">ถ้าไม่ระบุสัญชาติ ให้เป็น</label><select id="impNat"><option value="TH">คนไทย</option><option value="MM">พม่า</option></select></div>
+    <textarea class="reason" id="impText" style="min-height:130px; font-size:14px" placeholder="K001	สมชาย ใจดี		TH	ฝ่ายผลิต&#10;KM-01	อองโซ	Aung Soe	MM	ฝ่ายผลิต"></textarea>
+    <div id="impPreview" class="impPreview"></div>
+    <div class="modalBtns" style="margin-top:12px">
+      <button class="btn btn-line" id="impCancel" type="button">ยกเลิก</button>
+      <button class="btn btn-primary" id="impSave" type="button" disabled>นำเข้า</button>
+    </div>
+  </div>
+</div>
+
+<!-- อัปโหลดรูปหลายคน -->
+<div class="overlay hidden" id="batchModal">
+  <div class="modal modal-wide" style="text-align:left">
+    <div class="bigName" style="font-size:20px; text-align:center; margin-bottom:6px">อัปโหลดรูปหลายคน</div>
+    <p class="desc" style="text-align:center">ตั้งชื่อไฟล์รูปเป็น<b>รหัสพนักงาน</b> เช่น <code>K001.jpg</code>, <code>KM-01.jpg</code> ระบบจะจับคู่ให้เอง</p>
+    <label class="btn btn-primary btn-block" style="cursor:pointer">📁 เลือกรูปหลายไฟล์<input type="file" id="batchPhotos" accept="image/*" multiple class="hidden"></label>
+    <div id="batchLog" style="margin-top:14px; max-height:280px; overflow-y:auto"></div>
+    <button class="btn btn-line btn-block" id="batchClose" type="button" style="margin-top:14px">ปิด</button>
+  </div>
+</div>
+
+<button class="secretDot" id="secretDot" type="button" aria-label="admin" tabindex="-1"></button>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<!-- ล็อกการซูม: กัน pinch-zoom (iOS) และ double-tap zoom ให้หน้าจอคงที่ -->
+<script>
+(function(){
+  ['gesturestart','gesturechange','gestureend'].forEach(function(ev){
+    document.addEventListener(ev,function(e){e.preventDefault();},{passive:false});
+  });
+  document.addEventListener('touchmove',function(e){ if(e.touches.length>1) e.preventDefault(); },{passive:false});
+  // กัน double-tap zoom ใช้ CSS touch-action:manipulation แทน (ของเดิมดักที่ touchend ทำให้แตะเร็ว ๆ แล้วปุ่มไม่ติด)
+})();
+</script>
+
+<!-- โหลดตามลำดับ: config → i18n → qrcode → slip → app → admin → ot (เวลาแก้ไฟล์ บวกเลข ?v=) -->
+<script src="config.js?v=1.0"></script>
+<script src="i18n.js?v=1.0"></script>
+<script src="vendor/qrcode.js?v=1.0"></script>
+<script src="slip.js?v=1.0"></script>
+<script src="app.js?v=1.0"></script>
+<script src="admin.js?v=1.0"></script>
+<script src="ot.js?v=1.0"></script>
+</body>
+</html>
